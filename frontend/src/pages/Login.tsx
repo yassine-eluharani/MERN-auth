@@ -1,10 +1,28 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import axios from "axios";
 
 const Login = () => {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
-  console.log(Email, Password);
-
+  const loginUser = async (e) => {
+    e.preventDefault();
+    try {
+      await axios
+        .post("http://localhost:8OO0/", {
+          Email,
+          Password,
+        })
+        .then((res) => {
+          if (res.data === "Email exist") {
+            console.log("User exist");
+          } else {
+            alert("User does not exist");
+          }
+        });
+    } catch (e) {
+      console.error(e);
+    }
+  };
   return (
     <form>
       <input
@@ -21,7 +39,7 @@ const Login = () => {
         }}
         placeholder="Password"
       />
-      <input type="submit" />
+      <input type="submit" onClick={loginUser} />
     </form>
   );
 };
