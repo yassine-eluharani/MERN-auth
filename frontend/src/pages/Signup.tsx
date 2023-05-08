@@ -6,12 +6,18 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const register = async (e) => {
     e.preventDefault();
+    const customConfig = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const json = JSON.stringify({ email: email, password: password });
     const data = await axios
-      .post("http://localhost:3000/user/signup", {
-        email: email,
-        password: password,
-      })
-      .then((res) => res.data);
+      .post("http://localhost:3000/user/signup", json, customConfig)
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+      });
     console.log(data);
   };
   return (

@@ -4,24 +4,24 @@ import axios from "axios";
 const Login = () => {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
-  const loginUser = async (e) => {
+  const login = async (e) => {
     e.preventDefault();
-    try {
-      await axios
-        .post("http://localhost:8OO0/", {
-          Email,
-          Password,
-        })
-        .then((res) => {
-          if (res.data === "Email exist") {
-            console.log("User exist");
-          } else {
-            alert("User does not exist");
-          }
-        });
-    } catch (e) {
-      console.error(e);
-    }
+    const customConfig = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const json = JSON.stringify({
+      email: "user@test.com",
+      password: "testpassword",
+    });
+    const data = await axios
+      .post("http://localhost:3000/user/login", json, customConfig)
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+      });
+    console.log(data);
   };
   return (
     <form>
@@ -39,7 +39,7 @@ const Login = () => {
         }}
         placeholder="Password"
       />
-      <input type="submit" onClick={loginUser} />
+      <input type="submit" onClick={login} />
     </form>
   );
 };
