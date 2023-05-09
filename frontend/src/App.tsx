@@ -4,12 +4,14 @@ import PrivateRoute from "./utils/PrivateRoute";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Header from "./components/Header";
 
 function App() {
   return (
     <>
       <Router>
         <AuthProvider>
+          <Header />
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />

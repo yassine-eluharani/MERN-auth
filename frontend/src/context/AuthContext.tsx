@@ -7,45 +7,14 @@ const AuthContext = createContext("");
 export default AuthContext;
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-
-  const loginUser = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-    try {
-      await axios
-        .post("http://localhost:8OO0/", {
-          email,
-          password,
-        })
-        .then((res) => {
-          if (res.data === "Email exist") {
-            console.log("User exist");
-          } else {
-            alert("User does not exist");
-          }
-        });
-    } catch (e) {
-      console.error(e);
-    }
-  };
-  const signUpUser = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-    try {
-      await axios.post("http://localhost:8OO0/signup", {
-        email,
-        password,
-      });
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  const [user, setUser] = useState(() =>
+    localStorage.getItem("authTokens")
+      ? localStorage.getItem("authTokens")
+      : null
+  );
   const contextData = {
     user: user,
-    loginUser: loginUser,
+    setUser: setUser,
   };
   return (
     <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>
